@@ -8,24 +8,7 @@ type KeyDownEvent = React.KeyboardEvent<HTMLTextAreaElement>;
 
 function App() {
   const [inputValue, setInputValue] = useState<string>("");
-  const [codes, setCodes] = useState([
-    "test",
-    "test2",
-    "test",
-    "test2",
-    "test",
-    "test2",
-    "test",
-    "test2",
-    "test",
-    "test2",
-    "test",
-    "test2",
-    "test",
-    "test2",
-    "test",
-    "test2",
-  ]);
+  const [codes, setCodes] = useState<string[]>([]);
 
   const generateCodes = useMemo(() => {
     return (
