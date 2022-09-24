@@ -1,0 +1,9 @@
+.barcodes-container {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.barcode {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
