@@ -1,9 +1,26 @@
-.barcodes-container {
-  break-inside: avoid;
-  page-break-inside: avoid;
+.barcode_pages-container {
+  @apply flex flex-wrap justify-center print:flex-col;
 }
 
-.barcode {
-  break-inside: avoid;
-  page-break-inside: avoid;
+.barcodes-page {
+  width: 8.5in;
+  height: 11in;
+  background: #000;
+  @apply break-inside-avoid m-5 print:m-0 print:w-screen print:h-screen print:border-none;
+}
+
+.barcodes-page.--empty {
+  @apply print:hidden;
+}
+
+.barcodes-page.--active {
+  @apply border border-yellow-300
+}
+
+.barcodes-page:not(.--active) {
+  @apply hover:cursor-pointer;
+}
+
+.barcode-svg rect {
+  @apply dark:fill-slate-100;
 }
