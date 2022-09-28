@@ -155,12 +155,7 @@ function getInitialData(): StateType {
     data: [
       {
         ref: createRef(),
-        barcodes: [
-          {
-            code: "1234567890123",
-            label: "Test1",
-          },
-        ],
+        barcodes: [],
       },
     ],
     activePageIndex: 0,
