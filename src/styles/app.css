@@ -1,12 +1,16 @@
-.barcode_pages-container {
-  @apply flex flex-wrap justify-center print:flex-col;
+.barcode-pages-container {
+  @apply flex flex-wrap justify-center w-full h-screen;
+}
+
+.barcodes-page-container {
+  @apply flex justify-center items-center print:flex-col print:m-0 w-screen h-screen;
 }
 
 .barcodes-page {
-  width: 8.5in;
-  height: 11in;
-  background: #000;
-  @apply break-inside-avoid m-5 print:m-0 print:w-screen print:h-screen print:border-none;
+  height: 90%;
+  aspect-ratio: 8.5 / 11;
+  @apply flex flex-wrap m-5 break-inside-avoid print:m-0 pt-10
+  print:w-screen shadow-2xl print:h-screen print:border-none bg-white dark:bg-slate-800 border-white dark:border-slate-900 border-[3px] dark:border-[3px] transition-all;
 }
 
 .barcodes-page.--empty {
@@ -14,13 +18,26 @@
 }
 
 .barcodes-page.--active {
-  @apply border border-yellow-300
+  @apply border-slate-300 dark:border-orange-500;
 }
 
 .barcodes-page:not(.--active) {
   @apply hover:cursor-pointer;
 }
 
+.barcode {
+  @apply flex flex-1 justify-center basis-1/2 break-after-all h-[10rem] relative;
+}
+
 .barcode-svg rect {
-  @apply dark:fill-slate-100;
+  @apply fill-black dark:fill-white;
+}
+
+.pages-container {
+  @apply overflow-y-auto print:overflow-y-visible;
+}
+
+.btn {
+  @apply disabled:bg-slate-400 disabled:hover:bg-slate-400 p-2 text-sm bg-orange-500 rounded-md text-slate-900
+  dark:text-black font-bold hover:bg-orange-400 dark:hover:bg-orange-700 transition-all;
 }

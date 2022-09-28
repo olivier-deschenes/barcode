@@ -1,12 +1,20 @@
-import { useEffect, useMemo, useState, useReducer, Reducer } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+  useReducer,
+  Reducer,
+  createRef,
+} from "react";
 import { Barcode } from "./component/Barcode";
+import { BarcodesPage } from "./component/BarcodesPage";
 import { Button } from "./component/Button";
 import { Textarea } from "./component/Textarea";
 import "./styles/app.css";
 
 type KeyDownEvent<T> = React.KeyboardEvent<T>;
 
-type ActionType =
+export type ActionType =
   | {
       type: "add_code";
       data: string;
@@ -28,12 +36,22 @@ type ActionType =
       data: number;
     };
 
+export interface BarecodeType {
+  code: string;
+  label: string;
+}
+
+export interface PageType {
+  ref: React.RefObject<HTMLDivElement>;
+  barcodes: BarecodeType[];
+}
+
 interface StateType {
-  data: string[][];
+  data: PageType[];
   activePageIndex: number;
 }
 
-const maxBarcodePerPage = 8;
+export const maxBarcodePerPage = 8;
 
 function reducer(
   state: StateType,
@@ -44,29 +62,45 @@ function reducer(
     case "add_code": {
       if (!actionData) return state;
 
+      const newBarcode = {
+        code: actionData,
+        label: actionData,
+      };
+
       const activePageHasSpace =
-        state.data[state.activePageIndex].length < maxBarcodePerPage;
+        state.data[state.activePageIndex].barcodes.length < maxBarcodePerPage;
 
       if (!activePageHasSpace) {
         const newPageIndex = state.data.findIndex(
-          (page) => page.length < maxBarcodePerPage
+          (page) => page.barcodes.length < maxBarcodePerPage
         );
 
         if (newPageIndex === -1) {
           return {
             ...state,
-            data: [...state.data, [actionData]],
+            data: [
+              ...state.data,
+              {
+                ref: createRef(),
+                barcodes: [newBarcode],
+              },
+            ],
           };
         } else {
           return {
             ...state,
             data: state.data.map((page, index) =>
-              index === newPageIndex ? [...page, actionData] : page
+              index === newPageIndex
+                ? {
+                    ...page,
+                    barcodes: [...page.barcodes, newBarcode],
+                  }
+                : page
             ),
           };
         }
       } else {
-        state.data[state.activePageIndex].push(actionData);
+        state.data[state.activePageIndex].barcodes.push(newBarcode);
 
         return {
           ...state,
@@ -75,14 +109,15 @@ function reducer(
       }
     }
     case "remove_code": {
-      state.data[actionData.pageIndex].splice(actionData.codeIndex, 1);
+      state.data[actionData.pageIndex].barcodes.splice(actionData.codeIndex, 1);
       return {
         ...state,
         data: [...state.data],
       };
     }
     case "add_page": {
-      const newPageIndex = state.data.push([]) - 1;
+      const newPageIndex =
+        state.data.push({ ref: createRef(), barcodes: [] }) - 1;
 
       return {
         data: [...state.data],
@@ -117,7 +152,17 @@ function getInitialData(): StateType {
   } */
 
   return {
-    data: [[]],
+    data: [
+      {
+        ref: createRef(),
+        barcodes: [
+          {
+            code: "1234567890123",
+            label: "Test1",
+          },
+        ],
+      },
+    ],
     activePageIndex: 0,
   };
 }
@@ -142,35 +187,15 @@ function App(): React.ReactElement {
 
   const generateCodes = useMemo(() => {
     return (
-      <div className={"barcode_pages-container"}>
+      <div className={"barcode-pages-container"}>
         {data.map((page, pageIndex) => (
-          <div
-            key={`barcode_page_${pageIndex}`}
-            className={`barcodes-page scale-75 print:scale-100 flex flex-wrap relative ${
-              activePageIndex === pageIndex ? "--active" : ""
-            } ${page.length === 0 ? "--empty" : ""}`}
-            onClick={() =>
-              dispatch({ type: "change_active_page", data: pageIndex })
-            }
-          >
-            {page.map((code, codeIndex) => {
-              const key = `code_${codeIndex}`;
-
-              return (
-                <Barcode
-                  key={key}
-                  id={key}
-                  code={code}
-                  selftRemove={() =>
-                    dispatch({
-                      type: "remove_code",
-                      data: { pageIndex, codeIndex },
-                    })
-                  }
-                />
-              );
-            })}
-          </div>
+          <BarcodesPage
+            activePageIndex={activePageIndex}
+            barcodes={page.barcodes}
+            key={pageIndex}
+            dispatch={dispatch}
+            index={pageIndex}
+          />
         ))}
       </div>
     );
@@ -198,7 +223,6 @@ function App(): React.ReactElement {
   };
 
   const handlePageKeyDown = (ev: KeyboardEvent): void => {
-    console.log(ev);
     if (ev.key !== "+" || !ev.shiftKey) return;
 
     ev.preventDefault();
@@ -206,26 +230,42 @@ function App(): React.ReactElement {
   };
 
   return (
-    <div className="flex flex-col dark:bg-slate-900 min-w-screen min-h-screen print:p-0">
-      <div className={"print:hidden fixed w-full bottom-0 p-12 z-50 h-[12rem]"}>
-        <div>
+    <div className="app-container flex justify-between bg-slate-100 dark:bg-slate-900 print:p-0 w-screen">
+      <div
+        className={
+          "input-container flex flex-col justify-center print:hidden h-screen w-1/3 p-5"
+        }
+      >
+        <div
+          className={
+            "flex ml-auto flex-col bg-white dark:bg-slate-800 p-5 rounded-md gap-2.5 w-[80%]"
+          }
+        >
           <div>
             <Textarea
               value={inputValue}
               onChange={({ target }) => setInputValue(target.value)}
               onKeyDown={handleTextKeyDown}
-              className={"w-full"}
+              className={"w-full h-[15rem]"}
               placeholder="Enter codes here"
             />
           </div>
           <div className={"flex"}>
-            <Button className={"ml-auto"} onClick={handleAddCode}>
+            <Button
+              className={"ml-auto"}
+              onClick={handleAddCode}
+              disabled={inputValue.trim() === ""}
+            >
               Add barcode(s)
             </Button>
           </div>
         </div>
       </div>
-      <div className={"flex justify-center"}>{generateCodes}</div>
+      <div
+        className={"pages-container w-2/3 print:w-screen flex justify-center"}
+      >
+        {generateCodes}
+      </div>
     </div>
   );
 }
