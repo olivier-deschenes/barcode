@@ -4,6 +4,7 @@ import { Button } from "./component/Button";
 import { Textarea } from "./component/Textarea";
 import "./styles/app.css";
 import { ActionType, StateType } from "./types/action";
+import { BarecodeType } from "./types/global";
 import { reducer, getInitialData } from "./utils/reducer";
 
 type KeyDownEvent<T> = React.KeyboardEvent<T>;
@@ -23,6 +24,18 @@ function App(): React.ReactElement {
       document.removeEventListener("keydown", handlePageKeyDown);
     };
   }, []);
+
+  useEffect(() => {
+    let latestBarcodes = data.reduce<BarecodeType[]>(
+      (acc, curr) => [...acc, ...curr.barcodes],
+      []
+    );
+
+    latestBarcodes = latestBarcodes.slice(
+      Math.max(latestBarcodes.length - maxBarcodePerPage, 0)
+    );
+    window.localStorage.setItem("data", JSON.stringify(latestBarcodes));
+  }, [data]);
 
   const generateCodes = useMemo(() => {
     return data.map((page, pageIndex) => (

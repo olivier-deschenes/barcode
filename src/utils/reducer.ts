@@ -12,11 +12,13 @@ import {
 import { BarecodeType } from "../types/global";
 
 export function getInitialData(): StateType {
+  const storageData = localStorage.getItem("data");
+
   return {
     data: [
       {
         ref: createRef(),
-        barcodes: [],
+        barcodes: storageData ? JSON.parse(storageData) : [],
       },
     ],
     activePageIndex: 0,
