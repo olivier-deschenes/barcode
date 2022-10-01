@@ -1,3 +1,19 @@
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply dark:bg-slate-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-400 dark:bg-purple-600 rounded-md;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .barcode-pages-container {
   @apply flex flex-wrap justify-center w-full h-screen;
 }
@@ -18,7 +34,7 @@
 }
 
 .barcodes-page.--active {
-  @apply border-slate-300 dark:border-orange-500;
+  @apply border-slate-300 dark:border-purple-600;
 }
 
 .barcodes-page:not(.--active) {
@@ -29,8 +45,16 @@
   @apply flex flex-1 justify-center basis-1/2 break-after-all h-[10rem] relative;
 }
 
+.barcode svg:hover {
+  @apply cursor-pointer;
+}
+
+.barcode-svg svg:hover rect {
+  @apply fill-purple-300
+}
+
 .barcode-svg rect {
-  @apply fill-black dark:fill-white;
+  @apply fill-black dark:fill-white transition-colors;
 }
 
 .pages-container {
@@ -38,6 +62,6 @@
 }
 
 .btn {
-  @apply disabled:bg-slate-400 disabled:hover:bg-slate-400 p-2 text-sm bg-orange-500 rounded-md text-slate-900
-  dark:text-black font-bold hover:bg-orange-400 dark:hover:bg-orange-700 transition-all;
+  @apply disabled:bg-slate-400 disabled:hover:bg-slate-400 p-2 text-sm bg-purple-600 rounded-md text-white
+  dark:text-black font-bold hover:bg-purple-700 transition-all;
 }

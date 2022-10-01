@@ -1,6 +1,6 @@
 import JsBarcode from "jsbarcode";
 import { useEffect } from "react";
-import { BarecodeType } from "../App";
+import { BarecodeType } from "../types/global";
 
 interface Props {
   code: BarecodeType;
@@ -17,13 +17,21 @@ export function Barcode({ code, id, selftRemove }: Props): React.ReactElement {
   }, [code, id]);
 
   return (
-    <div className={"barcode"} onClick={selftRemove}>
+    <div className={"barcode group"} title={code.id}>
       <div className={"flex flex-col items-center"}>
         <div className={"flex"}>
-          <svg id={id} className={"barcode-svg break-inside-avoid"} />
+          <svg
+            id={id}
+            onClick={selftRemove}
+            className={"barcode-svg break-inside-avoid"}
+          />
         </div>
         <div className={"flex"}>
-          <span className={"text-black font-mono dark:text-white"}>
+          <span
+            className={"text-black font-mono dark:text-white"}
+            contentEditable
+            suppressContentEditableWarning={true}
+          >
             {code.label}
           </span>
         </div>

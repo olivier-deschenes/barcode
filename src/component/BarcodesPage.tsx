@@ -1,28 +1,33 @@
-import React, { forwardRef, useEffect, useRef } from "react";
-import { ActionType, BarecodeType, maxBarcodePerPage } from "../App";
+import React, { useEffect, useRef } from "react";
+import { maxBarcodePerPage } from "../App";
+import { ActionType } from "../types/action";
+import { BarecodeType } from "../types/global";
 import { Barcode } from "./Barcode";
 interface Props {
   index: number;
   barcodes: BarecodeType[];
+  forceScrollIntoView: boolean;
   activePageIndex: number;
   dispatch: React.Dispatch<ActionType>;
 }
 export const BarcodesPage = ({
   index,
   barcodes,
-  activePageIndex,
+  forceScrollIntoView,
   dispatch,
+  activePageIndex,
 }: Props): React.ReactElement => {
   const ref = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (!ref?.current || activePageIndex !== index) return;
 
-    ref.current.scrollIntoView({
+  useEffect(() => {
+    if (!forceScrollIntoView) return;
+
+    ref.current?.scrollIntoView({
       behavior: "smooth",
       block: "center",
       inline: "center",
     });
-  }, [activePageIndex, index, ref]);
+  }, [forceScrollIntoView]);
 
   return (
     <div key={`barcode_page_${index}`} className={"barcodes-page-container"}>
