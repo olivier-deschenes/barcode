@@ -3,12 +3,5 @@ export function Button({
   className,
   ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement>): React.ReactElement {
-  return (
-    <button
-      className={`btn ${
-        className ?? ""
-      }`}
-      {...props}
-    />
-  );
+  return <button className={`btn ${className ?? ""}`} {...props} />;
 }

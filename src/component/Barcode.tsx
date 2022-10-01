@@ -28,7 +28,7 @@ export function Barcode({ code, id, selftRemove }: Props): React.ReactElement {
         </div>
         <div className={"flex"}>
           <span
-            className={"text-black font-mono dark:text-white"}
+            className={"font-mono text-black dark:text-white"}
             contentEditable
             suppressContentEditableWarning={true}
           >

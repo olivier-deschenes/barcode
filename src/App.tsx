@@ -66,15 +66,15 @@ function App(): React.ReactElement {
   };
 
   return (
-    <div className="app-container flex justify-between bg-slate-200 dark:bg-slate-900 print:p-0 w-screen">
+    <div className="app-container flex w-screen justify-between bg-slate-200 dark:bg-slate-900 print:p-0">
       <div
         className={
-          "input-container flex flex-col justify-center print:hidden h-screen w-1/3 p-5"
+          "input-container flex h-screen w-1/3 flex-col justify-center p-5 print:hidden"
         }
       >
         <div
           className={
-            "flex ml-auto flex-col bg-white dark:bg-slate-800 pt-5 [&>*]:px-5 w-[80%] rounded-md"
+            "ml-auto flex w-[80%] flex-col rounded-md bg-white pt-5 dark:bg-slate-800 [&>*]:px-5"
           }
         >
           <div className={"pb-3.5 dark:pb-0"}>
@@ -82,12 +82,12 @@ function App(): React.ReactElement {
               value={inputValue}
               onChange={({ target }) => setInputValue(target.value)}
               onKeyDown={handleTextKeyDown}
-              className={"w-full h-[15rem]"}
+              className={"h-[15rem] w-full"}
               placeholder="Enter codes here"
             />
           </div>
           <div
-            className={"flex py-3.5 bg-slate-50 dark:bg-slate-800 rounded-b-md"}
+            className={"flex rounded-b-md bg-slate-50 py-3.5 dark:bg-slate-800"}
           >
             <Button
               className={"ml-auto"}
@@ -100,7 +100,7 @@ function App(): React.ReactElement {
         </div>
       </div>
       <div
-        className={"pages-container w-2/3 print:w-screen flex justify-center"}
+        className={"pages-container flex w-2/3 justify-center print:w-screen"}
       >
         <div className={"barcode-pages-container"}>{generateCodes}</div>
       </div>
