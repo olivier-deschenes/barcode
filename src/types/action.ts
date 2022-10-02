@@ -1,5 +1,10 @@
 import { PageType } from "./global";
 
+export interface ClearActionType {
+  type: "CLEAR";
+  data: null;
+}
+
 export interface AddBarcodeActionType {
   type: "add_code";
   data: string;
@@ -30,7 +35,8 @@ export type ActionType =
   | RemoveBarcodeActionType
   | RemovePageActionType
   | AddPageActionType
-  | ChangeActivePageActionType;
+  | ChangeActivePageActionType
+  | ClearActionType;
 
 export interface StateType {
   data: PageType[];

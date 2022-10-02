@@ -11,8 +11,13 @@ import {
 } from "../types/action";
 import { BarecodeType } from "../types/global";
 
-export function getInitialData(): StateType {
-  const storageData = localStorage.getItem("data");
+export function getInitialData(forceReset: boolean = false): StateType {
+  let storageData = localStorage.getItem("data");
+
+  if (forceReset && storageData) {
+    localStorage.removeItem("data");
+    storageData = null;
+  }
 
   return {
     data: [
@@ -23,6 +28,10 @@ export function getInitialData(): StateType {
     ],
     activePageIndex: 0,
   };
+}
+
+function handleClear(): StateType {
+  return getInitialData(true);
 }
 
 function handleAddCode(
@@ -151,6 +160,9 @@ export function reducer(state: StateType, action: ActionType): StateType {
     }
     case "change_active_page": {
       return handleChangeActivePage(state, action);
+    }
+    case "CLEAR": {
+      return handleClear();
     }
   }
 }
