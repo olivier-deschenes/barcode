@@ -1,0 +1,48 @@
+ table {
+   page-break-inside: auto
+ }
+
+ tr {
+   page-break-inside: avoid;
+   page-break-after: auto
+ }
+
+.barcodes-table .active {
+  @apply bg-yellow-300;
+} 
+
+.barcodes-table {
+  --barcode-width: 40vw;
+}
+
+.barcodes-table tbody tr:first-of-type td:first-of-type {
+  @apply rounded-tl-md;
+}
+
+.barcodes-table tbody tr:first-of-type td:last-of-type {
+  @apply rounded-tr-md;
+}
+
+.barcodes-table tbody tr:last-of-type td:first-of-type {
+  @apply rounded-bl-md;
+}
+
+.barcodes-table tbody tr:last-of-type td:last-of-type {
+  @apply rounded-br-md;
+}
+
+.barcodes-table tbody td {
+  @apply bg-white dark:bg-slate-800 items-center border border-slate-400 dark:border-slate-600 print:text-xs text-black dark:text-white print:text-black;
+}
+
+.barcodes-table th {
+  @apply print:text-xs;
+}
+
+.barcodes-table tr > th:last-of-type {
+  width: calc(var(--barcode-width));
+}
+
+.barcodes-table .barcode {
+  @apply h-[fit-content]
+}

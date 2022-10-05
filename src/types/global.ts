@@ -1,6 +1,6 @@
 export interface BarecodeType {
   code: string;
-  label: string;
+  label?: string;
   id: string;
 }
 

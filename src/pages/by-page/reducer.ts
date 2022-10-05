@@ -1,5 +1,5 @@
 import { createRef } from "react";
-import { maxBarcodePerPage } from "../App";
+import { maxBarcodePerPage } from "../../App";
 import {
   StateType,
   ActionType,
@@ -8,8 +8,9 @@ import {
   RemoveBarcodeActionType,
   AddPageActionType,
   ChangeActivePageActionType,
-} from "../types/action";
-import { BarecodeType } from "../types/global";
+} from "./action";
+import { BarecodeType } from "../../types/global";
+import { decodeBarcodes } from "../../utils/formatting";
 
 export function getInitialData(forceReset: boolean = false): StateType {
   let storageData = localStorage.getItem("data");
@@ -23,7 +24,7 @@ export function getInitialData(forceReset: boolean = false): StateType {
     data: [
       {
         ref: createRef(),
-        barcodes: storageData ? JSON.parse(storageData) : [],
+        barcodes: storageData ? decodeBarcodes(storageData) : [],
       },
     ],
     activePageIndex: 0,

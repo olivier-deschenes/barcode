@@ -1,4 +1,3 @@
-// @flow
 import React, {
   Reducer,
   useEffect,
@@ -6,14 +5,13 @@ import React, {
   useReducer,
   useState,
 } from "react";
-import { maxBarcodePerPage } from "../App";
-import { BarcodesPage } from "../component/BarcodesPage";
-import { Button } from "../component/Button";
-import { Textarea } from "../component/Textarea";
-import { StateType, ActionType } from "../types/action";
-import { KeyDownEvent } from "../types/event";
-import { BarecodeType } from "../types/global";
-import { reducer, getInitialData } from "../utils/reducer";
+import { BarcodesPage } from "../../component/BarcodesPage";
+import { Button } from "../../component/Button";
+import { Textarea } from "../../component/Textarea";
+import { StateType, ActionType } from "./action";
+import { KeyDownEvent } from "../../types/event";
+import { encodeBarcodes } from "../../utils/formatting";
+import { reducer, getInitialData } from "./reducer";
 
 export function ByPage(): React.ReactElement {
   const [inputValue, setInputValue] = useState<string>("");
@@ -30,15 +28,7 @@ export function ByPage(): React.ReactElement {
   }, []);
 
   useEffect(() => {
-    let latestBarcodes = data.reduce<BarecodeType[]>(
-      (acc, curr) => [...acc, ...curr.barcodes],
-      []
-    );
-
-    latestBarcodes = latestBarcodes.slice(
-      Math.max(latestBarcodes.length - maxBarcodePerPage, 0)
-    );
-    window.localStorage.setItem("data", JSON.stringify(latestBarcodes));
+    window.localStorage.setItem("data", encodeBarcodes(data));
   }, [data]);
 
   const generateCodes = useMemo(() => {
@@ -86,7 +76,7 @@ export function ByPage(): React.ReactElement {
     dispatch({ type: "CLEAR", data: null });
   };
   return (
-    <div className="app-container flex w-screen justify-between bg-slate-200 dark:bg-slate-900 print:p-0">
+    <div className="app-container flex w-screen justify-between print:p-0">
       <div
         className={
           "input-container flex h-screen w-1/3 flex-col justify-center p-5 print:hidden"

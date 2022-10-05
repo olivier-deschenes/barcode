@@ -5,19 +5,28 @@ import { BarecodeType } from "../types/global";
 interface Props {
   code: BarecodeType;
   id: string;
-  selftRemove: () => void;
+  selftRemove?: () => void;
+  options?: JsBarcode.Options;
 }
 
-export function Barcode({ code, id, selftRemove }: Props): React.ReactElement {
+export function Barcode({
+  code,
+  id,
+  selftRemove,
+  options,
+}: Props): React.ReactElement {
   useEffect(() => {
     JsBarcode(`#${id}`, code.code, {
       background: "transparent",
       displayValue: false,
+      ...options,
     });
-  }, [code, id]);
+  }, [code, id, options]);
+
+  if (!code) return <></>;
 
   return (
-    <div className={"barcode group"} title={code.id}>
+    <div className={"barcode group"} title={code.id} data-code={code.code}>
       <div className={"flex flex-col items-center"}>
         <div className={"flex"}>
           <svg
@@ -26,15 +35,17 @@ export function Barcode({ code, id, selftRemove }: Props): React.ReactElement {
             className={"barcode-svg break-inside-avoid"}
           />
         </div>
-        <div className={"flex"}>
-          <span
-            className={"font-mono text-black dark:text-white"}
-            contentEditable
-            suppressContentEditableWarning={true}
-          >
-            {code.label}
-          </span>
-        </div>
+        {code.label ? (
+          <div className={"flex"}>
+            <span
+              className={"font-mono text-black dark:text-white"}
+              contentEditable
+              suppressContentEditableWarning={true}
+            >
+              {code.label}
+            </span>
+          </div>
+        ) : null}
       </div>
     </div>
   );

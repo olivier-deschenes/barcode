@@ -1,4 +1,4 @@
-import { PageType } from "./global";
+import { PageType } from "../../types/global";
 
 export interface ClearActionType {
   type: "CLEAR";

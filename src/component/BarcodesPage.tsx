@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { maxBarcodePerPage } from "../App";
-import { ActionType } from "../types/action";
+import { ActionType } from "../pages/by-page/action";
 import { BarecodeType } from "../types/global";
 import { Barcode } from "./Barcode";
 interface Props {
