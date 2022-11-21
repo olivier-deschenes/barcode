@@ -23,10 +23,13 @@
 }
 
 .barcodes-page {
-  height: 90%;
+  width: 8.5in;
   aspect-ratio: 8.5 / 11;
-  @apply flex flex-wrap m-5 break-inside-avoid print:m-0 pt-10
-  print:w-screen shadow-2xl print:h-screen print:border-none bg-white dark:bg-slate-800 border-white dark:border-slate-900 border-[3px] dark:border-[3px] transition-all;
+  @apply flex flex-wrap break-inside-avoid print:m-0 pt-10
+  print:w-screen shadow-2xl print:h-screen 
+  print:border-none bg-white dark:bg-slate-800 
+  border-white dark:border-slate-900 border-[3px] 
+  dark:border-[3px] transition-all scale-[0.90];
 }
 
 .barcodes-page.--empty {
@@ -41,11 +44,12 @@
   @apply hover:cursor-pointer;
 }
 
-.barcode {
-  @apply flex flex-1 justify-center basis-1/2 break-after-all h-[10rem] relative;
+.barcode-container {
+  @apply flex flex-1 justify-center basis-1/2 
+  break-after-all h-[10rem] relative;
 }
 
-.barcode svg:hover {
+.barcode-container svg:hover {
   @apply cursor-pointer;
 }
 

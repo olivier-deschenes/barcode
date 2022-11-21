@@ -16,18 +16,24 @@ export function Barcode({
   options,
 }: Props): React.ReactElement {
   useEffect(() => {
-    JsBarcode(`#${id}`, code.code, {
-      background: "transparent",
-      displayValue: false,
-      ...options,
-    });
-  }, [code, id, options]);
+    try {
+      JsBarcode(`#${id}`, code.code, {
+        background: "transparent",
+        displayValue: false,
+        ...options,
+      });
+    } catch (e) {
+      console.error(e);
+      selftRemove?.();
+      alert(`Error: ${typeof e === "string" ? e : "unknown"}`);
+    }
+  }, [code, id, options, selftRemove]);
 
   if (!code) return <></>;
 
   return (
-    <div className={"barcode group"} title={code.id} data-code={code.code}>
-      <div className={"flex flex-col items-center"}>
+    <div className={`barcode-container`} title={code.id} data-code={code.code}>
+      <div className={"barcode flex flex-col items-center justify-center"}>
         <div className={"flex"}>
           <svg
             id={id}
