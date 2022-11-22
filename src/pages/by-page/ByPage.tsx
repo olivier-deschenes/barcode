@@ -12,12 +12,26 @@ import { StateType, ActionType } from "./action";
 import { KeyDownEvent } from "../../types/event";
 import { encodeBarcodes } from "../../utils/formatting";
 import { reducer, getInitialData } from "./reducer";
+import { Trans, useTranslation } from "react-i18next";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export function ByPage(): React.ReactElement {
   const [inputValue, setInputValue] = useState<string>("");
+  const { t } = useTranslation();
   const [{ data, activePageIndex }, dispatch] = useReducer<
     Reducer<StateType, ActionType>
   >(reducer, getInitialData());
+
+  const inputBarcodesCount = useMemo(
+    () => inputValue.split("\n").length,
+    [inputValue]
+  );
+
+  const barcodesCount = useMemo(
+    () => data.reduce((acc, page) => page.barcodes.length + acc, 0),
+    [data]
+  );
 
   useEffect(() => {
     document.addEventListener("keydown", handlePageKeyDown);
@@ -84,32 +98,37 @@ export function ByPage(): React.ReactElement {
       >
         <div
           className={
-            "ml-auto flex w-[80%] flex-col rounded-md bg-white pt-5 dark:bg-slate-800 [&>*]:px-5"
+            "ml-auto flex w-[80%] flex-col gap-3.5 rounded-md bg-white pt-5 pb-2.5 dark:bg-slate-800 [&>*]:px-5"
           }
         >
-          <div className={"pb-3.5 dark:pb-0"}>
+          <div className={"group relative flex"}>
             <Textarea
               value={inputValue}
               onChange={({ target }) => setInputValue(target.value)}
               onKeyDown={handleTextKeyDown}
               className={"h-[15rem] w-full"}
-              placeholder="Enter codes here"
             />
+            <span
+              className={
+                "placeholder-text absolute m-3 text-slate-500 group-focus-within:hidden " +
+                (inputValue.trim() !== "" ? "hidden" : "")
+              }
+            >
+              <Trans i18nKey={"tips.addBarcode"}>
+                Press <kbd>Shift</kbd> + <kbd>Enter</kbd> to create multiple
+                barcodes.
+              </Trans>
+            </span>
           </div>
-          <div
-            className={"flex rounded-b-md bg-slate-50 py-3.5 dark:bg-slate-800"}
-          >
-            <div className={"flex"}>
-              <Button onClick={handleReset}>Reset Pages</Button>
-            </div>
-            <div className={"ml-auto flex"}>
-              <Button
-                onClick={handleAddCode}
-                disabled={inputValue.trim() === ""}
-              >
-                Add barcode(s)
+          <div className={"flex justify-end gap-2 rounded-b-md"}>
+            {barcodesCount > 0 ? (
+              <Button onClick={handleReset} level="error">
+                <FontAwesomeIcon icon={faXmark} fixedWidth />
               </Button>
-            </div>
+            ) : null}
+            <Button onClick={handleAddCode} disabled={inputValue.trim() === ""}>
+              {t("buttons.addBarcode", { count: inputBarcodesCount })}
+            </Button>
           </div>
         </div>
       </div>

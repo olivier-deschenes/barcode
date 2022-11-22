@@ -1,0 +1,10 @@
+{
+  "tips": {
+    "addBarcode": "Appuyer sur <1>Shift</1> + <3>Enter</3> pour créer plusieurs codes-barres."
+  },
+  "buttons": {
+    "resetPages": "Réinitialiser les pages",
+    "addBarcode_one": "Ajouter un code-barres",
+    "addBarcode_other": "Ajouter les codes-barres"
+  }
+}
