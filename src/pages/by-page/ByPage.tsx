@@ -110,7 +110,7 @@ export function ByPage(): React.ReactElement {
             />
             <span
               className={
-                "placeholder-text absolute m-3 text-slate-500 group-focus-within:hidden " +
+                "placeholder-text pointer-events-none absolute m-3 text-slate-500 group-focus-within:hidden " +
                 (inputValue.trim() !== "" ? "hidden" : "")
               }
             >
@@ -129,6 +129,11 @@ export function ByPage(): React.ReactElement {
             <Button onClick={handleAddCode} disabled={inputValue.trim() === ""}>
               {t("buttons.addBarcode", { count: inputBarcodesCount })}
             </Button>
+          </div>
+        </div>
+        <div>
+          <div className={"mt-5 flex justify-center"}>
+            <h1>test</h1>
           </div>
         </div>
       </div>

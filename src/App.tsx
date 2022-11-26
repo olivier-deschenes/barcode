@@ -1,4 +1,4 @@
-import { useEffect, useRef, useTransition } from "react";
+import { useEffect } from "react";
 import { Routes, Route } from "react-router";
 import { ByPage } from "./pages/by-page/ByPage";
 import { ByTable } from "./pages/by-table/ByTable";
