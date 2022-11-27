@@ -44,7 +44,7 @@ export function Button({
       }
     }
 
-    classeList.push(className);
+    if (className) classeList.push(className);
 
     return classeList.join(" ");
   }, [className, level]);
