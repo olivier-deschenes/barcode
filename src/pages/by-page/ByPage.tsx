@@ -131,11 +131,6 @@ export function ByPage(): React.ReactElement {
             </Button>
           </div>
         </div>
-        <div>
-          <div className={"mt-5 flex justify-center"}>
-            <h1>test</h1>
-          </div>
-        </div>
       </div>
       <div
         className={"pages-container flex w-2/3 justify-center print:w-screen"}
