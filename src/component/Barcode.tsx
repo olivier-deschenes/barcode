@@ -47,6 +47,7 @@ export function Barcode({
               className={"font-mono text-black dark:text-white"}
               contentEditable
               suppressContentEditableWarning={true}
+              spellCheck={false}
             >
               {code.label}
             </span>
