@@ -7,7 +7,7 @@ export function Navigation(): React.ReactElement {
           "rounded bg-white py-2 px-4 leading-none [&>*]:leading-none [&>*]:text-background"
         }
       >
-        <h1 className={"text-4xl"}>code128.bar</h1>
+        <h1 className={"text-4xl"}>{window.location.hostname}</h1>
         <span className={"text-xs"}>
           Changing the world, one barcode at a time
         </span>
