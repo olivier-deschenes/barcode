@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Textarea } from "../../component/Textarea";
+import { Textarea } from "../../components/Textarea";
 import { KeyDownEvent } from "../../types/event";
 import { useTableStore } from "./reducer";
 import "./styles.css";
@@ -42,9 +42,7 @@ export function ByTable(): React.ReactElement {
 
   return (
     <div className={"flex flex-col"}>
-      <div
-        className={"flex w-full bg-white p-5 dark:bg-slate-800 print:hidden"}
-      >
+      <div className={"flex w-full bg-white p-5 print:hidden"}>
         <Textarea
           className={"flex w-full"}
           onKeyDown={handleOnKeyDown}

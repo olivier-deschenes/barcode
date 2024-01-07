@@ -44,7 +44,7 @@ export function Barcode({
         {code.label ? (
           <div className={"flex"}>
             <span
-              className={"font-mono text-black dark:text-white"}
+              className={"font-mono text-black"}
               contentEditable
               suppressContentEditableWarning={true}
               spellCheck={false}

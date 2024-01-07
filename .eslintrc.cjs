@@ -28,6 +28,7 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': ['error'],
     'no-debugger': 'warn',
     "react/prop-types": "off",
-     "@typescript-eslint/strict-boolean-expressions": "off"
+     "@typescript-eslint/strict-boolean-expressions": "off",
+     "@typescript-eslint/explicit-function-return-type": "off"
   }
 }

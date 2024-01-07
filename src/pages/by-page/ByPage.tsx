@@ -5,20 +5,19 @@ import React, {
   useReducer,
   useState,
 } from "react";
-import { BarcodesPage } from "../../component/BarcodesPage";
-import { Button } from "../../component/Button";
-import { Textarea } from "../../component/Textarea";
+import { BarcodesPage } from "../../components/BarcodesPage";
+import { Textarea } from "../../components/Textarea";
 import { StateType, ActionType } from "./action";
 import { KeyDownEvent } from "../../types/event";
 import { encodeBarcodes } from "../../utils/formatting";
 import { reducer, getInitialData } from "./reducer";
-import { Trans, useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "../../components/ui/button";
 
 export function ByPage(): React.ReactElement {
   const [inputValue, setInputValue] = useState<string>("");
-  const { t } = useTranslation();
   const [{ data, activePageIndex }, dispatch] = useReducer<
     Reducer<StateType, ActionType>
   >(reducer, getInitialData());
@@ -98,7 +97,7 @@ export function ByPage(): React.ReactElement {
       >
         <div
           className={
-            "ml-auto flex w-[80%] flex-col gap-3.5 rounded-md bg-white pt-5 pb-2.5 dark:bg-slate-800 [&>*]:px-5"
+            "ml-auto flex w-[80%] flex-col gap-3.5 rounded bg-white pt-5 pb-2.5 [&>*]:px-5"
           }
         >
           <div className={"group relative flex"}>
@@ -106,7 +105,7 @@ export function ByPage(): React.ReactElement {
               value={inputValue}
               onChange={({ target }) => setInputValue(target.value)}
               onKeyDown={handleTextKeyDown}
-              className={"h-[15rem] w-full"}
+              className={"h-[15rem] w-full rounded"}
             />
             <span
               className={
@@ -120,15 +119,31 @@ export function ByPage(): React.ReactElement {
               </Trans>
             </span>
           </div>
-          <div className={"flex justify-end gap-2 rounded-b-md"}>
+          <div
+            className={
+              "flex h-10 items-center justify-between gap-2 rounded-b-md "
+            }
+          >
             {barcodesCount > 0 ? (
-              <Button onClick={handleReset} level="error">
-                <FontAwesomeIcon icon={faXmark} fixedWidth />
+              <Button
+                onClick={handleReset}
+                className={
+                  "h-6 rounded bg-background p-1 text-foreground hover:bg-background/70"
+                }
+              >
+                <Trans i18nKey={"buttons.resetPages"}>
+                  Reset <FontAwesomeIcon icon={faXmark} fixedWidth />
+                </Trans>
               </Button>
             ) : null}
-            <Button onClick={handleAddCode} disabled={inputValue.trim() === ""}>
-              {t("buttons.addBarcode", { count: inputBarcodesCount })}
-            </Button>
+            <div className={"ml-auto text-sm"}>
+              <Trans
+                i18nKey={"tips.enterToAddBarcode"}
+                count={inputBarcodesCount}
+              >
+                Press <kbd>Enter</kbd> to add the barcode.
+              </Trans>
+            </div>
           </div>
         </div>
       </div>

@@ -37,9 +37,7 @@ export function Button({
         break;
       }
       default: {
-        classeList.push(
-          "bg-emerald-600 text-white dark:text-black hover:bg-emerald-700 "
-        );
+        classeList.push("bg-emerald-600 text-white hover:bg-emerald-700 ");
         break;
       }
     }

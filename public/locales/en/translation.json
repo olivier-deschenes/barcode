@@ -1,9 +1,11 @@
 {
   "tips": {
-    "addBarcode": "Press <1>Shift</1> + <3>Enter</3> to create multiple barcodes."
+    "addBarcode": "Press <1>Shift</1> + <3>Enter</3> to create multiple barcodes.",
+    "enterToAddBarcode_one": "Press <1>Enter</1> to add the barcode.",
+    "enterToAddBarcode_other": "Press <1>Enter</1> to add the barcodes."
   },
   "buttons": {
-    "resetPages": "Reset Pages",
+    "resetPages": "Reset <1></1>",
     "addBarcode_one": "Add barcode",
     "addBarcode_other": "Add barcodes"
   }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Barcode } from "../../component/Barcode";
+import { Barcode } from "../../components/Barcode";
 import { useTableStore } from "./reducer";
 interface Props {
   cells: string[];

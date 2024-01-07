@@ -1,18 +1,6 @@
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  @apply dark:bg-slate-900;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-slate-400 dark:bg-emerald-600 rounded-md;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .barcode-pages-container {
   @apply flex flex-wrap justify-center w-full h-screen;
@@ -26,17 +14,17 @@
   aspect-ratio: 8.5 / 11;
   @apply flex flex-wrap break-inside-avoid print:m-0 pt-10 w-[8.5in]
   print:w-screen shadow-2xl print:h-screen 
-  print:border-none bg-white dark:bg-slate-800 
-  border-white dark:border-slate-900 border-[3px] 
-  dark:border-[3px] transition-all scale-[0.90] print:scale-100;
-}
+  print:border-none bg-white 
+  border-white
+  transition-all scale-[0.75] print:scale-100;
+}x
 
 .barcodes-page.--empty {
   @apply print:hidden;
 }
 
 .barcodes-page.--active {
-  @apply border-slate-300 dark:border-emerald-600;
+  @apply border-slate-300;
 }
 
 .barcodes-page:not(.--active) {
@@ -53,7 +41,7 @@
 }
 
 .barcode-svg rect {
-  @apply fill-black dark:fill-white transition-colors;
+  @apply fill-black transition-colors;
 }
 
 .pages-container {
@@ -62,5 +50,5 @@
 
 kbd {
   @apply text-slate-700 bg-slate-100 shadow-inner border 
-    border-slate-300 rounded-sm inline-block px-1 pt-1 pb-0.5 whitespace-nowrap font-bold leading-none
+    border-slate-300 rounded inline-block px-1 pt-1 pb-0.5 whitespace-nowrap font-bold leading-none
 }
