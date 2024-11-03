@@ -28,6 +28,7 @@ export function getInitialData(forceReset: boolean = false): StateType {
       },
     ],
     activePageIndex: 0,
+    showBarcodeCode: false,
   };
 }
 
@@ -120,6 +121,7 @@ function handleAddPage(state: StateType, action: AddPageActionType): StateType {
   return {
     data: [...state.data],
     activePageIndex: newPageIndex,
+    showBarcodeCode: state.showBarcodeCode,
   };
 }
 
@@ -164,6 +166,12 @@ export function reducer(state: StateType, action: ActionType): StateType {
     }
     case "CLEAR": {
       return handleClear();
+    }
+    case "toggle_show_barcode_code": {
+      return {
+        ...state,
+        showBarcodeCode: !state.showBarcodeCode,
+      };
     }
   }
 }

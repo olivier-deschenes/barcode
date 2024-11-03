@@ -18,7 +18,7 @@ import { Button } from "../../components/ui/button";
 
 export function ByPage(): React.ReactElement {
   const [inputValue, setInputValue] = useState<string>("");
-  const [{ data, activePageIndex }, dispatch] = useReducer<
+  const [{ data, activePageIndex, showBarcodeCode }, dispatch] = useReducer<
     Reducer<StateType, ActionType>
   >(reducer, getInitialData());
 
@@ -53,9 +53,10 @@ export function ByPage(): React.ReactElement {
         key={pageIndex}
         dispatch={dispatch}
         index={pageIndex}
+        showBarcodeCode={showBarcodeCode}
       />
     ));
-  }, [activePageIndex, data]);
+  }, [activePageIndex, data, showBarcodeCode]);
 
   const handleAddCode = (): void => {
     const newCodes = inputValue
@@ -97,7 +98,7 @@ export function ByPage(): React.ReactElement {
       >
         <div
           className={
-            "ml-auto flex w-[80%] flex-col gap-3.5 rounded bg-white pt-5 pb-2.5 [&>*]:px-5"
+            "ml-auto flex w-[80%] flex-col gap-2.5 rounded bg-white pt-5 pb-2.5 [&>*]:px-5"
           }
         >
           <div className={"group relative flex"}>
@@ -151,6 +152,19 @@ export function ByPage(): React.ReactElement {
         className={"pages-container flex w-2/3 justify-center print:w-screen"}
       >
         <div className={"barcode-pages-container"}>{generateCodes}</div>
+      </div>
+      <div className={"absolute bottom-0 m-4 rounded bg-white p-2.5"}>
+        <div className={"flex gap-1.5"}>
+          <input
+            type="checkbox"
+            id="show_code"
+            checked={showBarcodeCode}
+            onChange={() =>
+              dispatch({ type: "toggle_show_barcode_code", data: null })
+            }
+          />
+          <label htmlFor="show_code">Show Barcode Code</label>
+        </div>
       </div>
     </div>
   );

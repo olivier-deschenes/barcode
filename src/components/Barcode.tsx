@@ -4,30 +4,31 @@ import { BarecodeType } from "../types/global";
 
 interface Props {
   code: BarecodeType;
-  id: string;
-  selftRemove?: () => void;
+  selfRemove?: () => void;
   options?: JsBarcode.Options;
+  showBarcodeCode: boolean;
 }
 
 export function Barcode({
   code,
-  id,
-  selftRemove,
+  selfRemove,
   options,
+  showBarcodeCode,
 }: Props): React.ReactElement {
+  const id = "id" + code.id.replaceAll("-", "");
+
   useEffect(() => {
     try {
       JsBarcode(`#${id}`, code.code, {
         background: "transparent",
-        displayValue: false,
+        displayValue: showBarcodeCode,
         ...options,
       });
     } catch (e) {
       console.error(e);
-      selftRemove?.();
-      alert(`Error: ${typeof e === "string" ? e : "unknown"}`);
+      selfRemove?.();
     }
-  }, [code, id, options, selftRemove]);
+  }, [code, id, options, selfRemove]);
 
   if (!code) return <></>;
 
@@ -37,7 +38,7 @@ export function Barcode({
         <div className={"flex"}>
           <svg
             id={id}
-            onClick={selftRemove}
+            onClick={selfRemove}
             className={"barcode-svg break-inside-avoid"}
           />
         </div>

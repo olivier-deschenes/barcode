@@ -30,15 +30,22 @@ export interface ChangeActivePageActionType {
   data: number;
 }
 
+export interface ToggleShowBarcodeCode {
+  type: "toggle_show_barcode_code";
+  data: null;
+}
+
 export type ActionType =
   | AddBarcodeActionType
   | RemoveBarcodeActionType
   | RemovePageActionType
   | AddPageActionType
   | ChangeActivePageActionType
-  | ClearActionType;
+  | ClearActionType
+  | ToggleShowBarcodeCode;
 
 export interface StateType {
   data: PageType[];
   activePageIndex: number;
+  showBarcodeCode: boolean;
 }

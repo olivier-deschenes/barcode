@@ -32,8 +32,8 @@ export function TableRow({ cells, rowIndex }: Props): React.ReactElement {
             code: data[rowIndex][activeColumnIndex],
             id: `row_${rowIndex}${activeColumnIndex}`,
           }}
-          id={`row_${rowIndex}`}
           options={{ height: 30, width: 1.5 }}
+          showBarcodeCode={false}
         />
       </td>
     </tr>

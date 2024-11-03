@@ -9,6 +9,7 @@ interface Props {
   forceScrollIntoView: boolean;
   activePageIndex: number;
   dispatch: React.Dispatch<ActionType>;
+  showBarcodeCode: boolean;
 }
 export const BarcodesPage = ({
   index,
@@ -16,6 +17,7 @@ export const BarcodesPage = ({
   forceScrollIntoView,
   dispatch,
   activePageIndex,
+  showBarcodeCode,
 }: Props): React.ReactElement => {
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -39,14 +41,12 @@ export const BarcodesPage = ({
         onClick={() => dispatch({ type: "change_active_page", data: index })}
       >
         {barcodes.slice(0, maxBarcodePerPage).map((code, codeIndex) => {
-          const key = `code_${codeIndex}`;
-
           return (
             <Barcode
-              key={key}
-              id={key}
+              key={code.id}
               code={code}
-              selftRemove={() =>
+              showBarcodeCode={showBarcodeCode}
+              selfRemove={() =>
                 dispatch({
                   type: "remove_code",
                   data: { pageIndex: index, codeIndex },
