@@ -15,8 +15,10 @@ import { Trans } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "../../components/ui/button";
+import { usePostHog } from "@posthog/react";
 
 export function ByPage(): React.ReactElement {
+  const posthog = usePostHog();
   const [inputValue, setInputValue] = useState<string>("");
   const [{ data, activePageIndex, showBarcodeCode }, dispatch] = useReducer<
     Reducer<StateType, ActionType>
@@ -67,6 +69,12 @@ export function ByPage(): React.ReactElement {
       dispatch({ type: "add_code", data: code });
     });
 
+    if (newCodes.length > 0) {
+      posthog.capture("barcode_added", {
+        count: newCodes.length,
+      });
+    }
+
     setInputValue("");
   };
 
@@ -84,9 +92,14 @@ export function ByPage(): React.ReactElement {
 
     ev.preventDefault();
     dispatch({ type: "add_page", data: null });
+    posthog.capture("page_added");
   };
 
   const handleReset = (): void => {
+    posthog.capture("barcodes_reset", {
+      barcodes_count: barcodesCount,
+      pages_count: data.length,
+    });
     dispatch({ type: "CLEAR", data: null });
   };
   return (
@@ -159,9 +172,12 @@ export function ByPage(): React.ReactElement {
             type="checkbox"
             id="show_code"
             checked={showBarcodeCode}
-            onChange={() =>
-              dispatch({ type: "toggle_show_barcode_code", data: null })
-            }
+            onChange={() => {
+              dispatch({ type: "toggle_show_barcode_code", data: null });
+              posthog.capture("barcode_code_visibility_toggled", {
+                show_barcode_code: !showBarcodeCode,
+              });
+            }}
           />
           <label htmlFor="show_code">Show Barcode Code</label>
         </div>

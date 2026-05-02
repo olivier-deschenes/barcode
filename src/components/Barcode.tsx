@@ -1,6 +1,7 @@
 import JsBarcode from "jsbarcode";
 import { useEffect } from "react";
 import { BarecodeType } from "../types/global";
+import { usePostHog } from "@posthog/react";
 
 interface Props {
   code: BarecodeType;
@@ -15,6 +16,7 @@ export function Barcode({
   options,
   showBarcodeCode,
 }: Props): React.ReactElement {
+  const posthog = usePostHog();
   const id = "id" + code.id.replaceAll("-", "");
 
   useEffect(() => {
@@ -26,11 +28,17 @@ export function Barcode({
       });
     } catch (e) {
       console.error(e);
+      posthog.captureException(e, { barcode_code: code.code });
       selfRemove?.();
     }
   }, [code, id, options, selfRemove]);
 
   if (!code) return <></>;
+
+  const handleRemove = (): void => {
+    posthog.capture("barcode_removed");
+    selfRemove?.();
+  };
 
   return (
     <div className={`barcode-container`} title={code.id} data-code={code.code}>
@@ -38,7 +46,7 @@ export function Barcode({
         <div className={"flex"}>
           <svg
             id={id}
-            onClick={selfRemove}
+            onClick={handleRemove}
             className={"barcode-svg break-inside-avoid"}
           />
         </div>

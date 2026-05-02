@@ -4,8 +4,10 @@ import { KeyDownEvent } from "../../types/event";
 import { useTableStore } from "./reducer";
 import "./styles.css";
 import { TableRow } from "./TableRow";
+import { usePostHog } from "@posthog/react";
 
 export function ByTable(): React.ReactElement {
+  const posthog = usePostHog();
   // const [state, dispatch] = useReducer(reducer, getInitialState());
   const data = useTableStore((state) => state.data);
   const setData = useTableStore((state) => state.setData);
@@ -21,6 +23,10 @@ export function ByTable(): React.ReactElement {
       .map((row) => row.split("\t").map((cell) => cell.trim()));
 
     setData(rows);
+    posthog.capture("table_created", {
+      rows_count: rows.length,
+      columns_count: rows[0]?.length ?? 0,
+    });
   };
 
   const handleOnKeyDown = (event: KeyDownEvent<HTMLTextAreaElement>): void => {
