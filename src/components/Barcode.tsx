@@ -22,7 +22,8 @@ export function Barcode({
   useEffect(() => {
     try {
       JsBarcode(`#${id}`, code.code, {
-        background: "transparent",
+        background: "#ffffff",
+        lineColor: "#000000",
         displayValue: showBarcodeCode,
         ...options,
       });

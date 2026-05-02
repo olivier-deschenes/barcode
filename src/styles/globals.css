@@ -17,7 +17,7 @@
   print:border-none bg-white 
   border-white
   transition-all scale-[0.75] print:scale-100;
-}x
+}
 
 .barcodes-page.--empty {
   @apply print:hidden;
@@ -38,10 +38,6 @@
 
 .barcode-container svg:hover {
   @apply cursor-pointer;
-}
-
-.barcode-svg rect {
-  @apply fill-black transition-colors;
 }
 
 .pages-container {
