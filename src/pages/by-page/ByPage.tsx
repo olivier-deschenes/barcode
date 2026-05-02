@@ -71,7 +71,7 @@ export function ByPage(): React.ReactElement {
 
     if (newCodes.length > 0) {
       posthog.capture("barcode_added", {
-        count: newCodes.length,
+        newCodes,
       });
     }
 

@@ -29,7 +29,7 @@ export function Barcode({
       });
     } catch (e) {
       console.error(e);
-      posthog.captureException(e, { barcode_code: code.code });
+      posthog.captureException(e, { code });
       selfRemove?.();
     }
   }, [code, id, options, selfRemove]);
@@ -37,7 +37,9 @@ export function Barcode({
   if (!code) return <></>;
 
   const handleRemove = (): void => {
-    posthog.capture("barcode_removed");
+    posthog.capture("barcode_removed", {
+      code,
+    });
     selfRemove?.();
   };
 
